@@ -1,0 +1,4 @@
+# SimbControll
+
+
+npm run dev
