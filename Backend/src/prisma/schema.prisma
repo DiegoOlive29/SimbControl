@@ -17,6 +17,20 @@ model User {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
   email   String   @unique
   password String
-  company   String  
+  company   String?
   createdAt DateTime @default(now())
+}
+
+model LoadUnload {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  placa            String
+  motorista        String
+  veiculo          String
+  data             DateTime
+  chegadaportaria  String
+  horarioentrada   String
+  horariosaida     String
+  atividade        String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
