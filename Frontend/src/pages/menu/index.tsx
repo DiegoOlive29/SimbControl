@@ -2,6 +2,7 @@ import React from "react";
 import MenuCard from "../../components/MenuCard";
 import { menus, MenusMap } from "./scheme";
 import LogOutButton from "../../components/LogOutButton";
+
 const MenuPage = () => {
   const keys = Object.keys(MenusMap) as menus[];
 
