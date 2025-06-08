@@ -9,7 +9,7 @@ export interface IScheduleAccess {
   status: string;
 }
 export interface Iloadunload {
-  id: string;
+  id?: string;
   placa: string;
   motorista: string;
   veiculo: string;
@@ -17,7 +17,7 @@ export interface Iloadunload {
   chegadaportaria: string;
   horarioentrada?: string | null;
   horariosaida?: string | null;
-  atividade: "Carga" | "Descarga";
+  atividade: string;
 }
 export interface ICreateScheduledAccessInput {
   name: string;
@@ -27,4 +27,23 @@ export interface ICreateScheduledAccessInput {
   accessType: string;
   permissionType: string;
   status: string;
+}
+
+export interface IAccess {
+  id: string;
+  name: string;
+  date: string;
+  time: string;
+  accessType: string;
+  status: string;
+  options: string[];
+}
+
+export interface ICreateAccessInput {
+  name: string;
+  date: string;
+  time: string;
+  accessType: string;
+  status: string;
+  options: string[];
 }

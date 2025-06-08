@@ -6,6 +6,8 @@ import { FiTruck } from "react-icons/fi";
 import Select from "../../Inputs/Select";
 import InputTime from "../../Inputs/InputTime";
 import InputDate from "../../Inputs/InputDate";
+import { useLoadUnload } from "../../../common/context/loadunload";
+import { Iloadunload } from "../../../utils/types/access";
 
 interface AddVehicleFormData {
   driver: string;
@@ -27,11 +29,24 @@ const AddVehicleModal = ({ handleOpenState }: Props) => {
     plate: "",
     date: "",
     time: "",
-    cargo: "",
+    cargo: "Carga",
   });
+  const { addloadunload } = useLoadUnload();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const payload: Iloadunload = {
+      motorista: formData.driver,
+      veiculo: formData.vehicle,
+      placa: formData.plate,
+      data: formData.date,
+      chegadaportaria: formData.time,
+      atividade: formData.cargo,
+    };
+    console.log(formData.cargo);
+    await addloadunload(payload);
+    handleOpenState(false);
   };
 
   return (
@@ -119,8 +134,8 @@ const AddVehicleModal = ({ handleOpenState }: Props) => {
                   setFormData({ ...formData, cargo: value })
                 }
                 options={[
-                  { value: "loading", label: "Carga" },
-                  { value: "unloading", label: "Descarga" },
+                  { value: "Carga", label: "Carga" },
+                  { value: "Descarga", label: "Descarga" },
                 ]}
                 value={formData.cargo}
               />
@@ -133,7 +148,7 @@ const AddVehicleModal = ({ handleOpenState }: Props) => {
               title="Cancelar"
               onClick={() => handleOpenState(false)}
             />
-            <Button color="blue" title="Salvar" />
+            <Button color="blue" onClick={handleSubmit} title="Salvar" />
           </div>
         </form>
       </div>
