@@ -10,7 +10,7 @@ export const createloadunload = (
   payload: Iloadunload
 ): Promise<IBasicPostResponse<Iloadunload>> => {
   return apiClient
-    .post("load-unload/register", payload)
+    .post("load-unload", payload)
     .then((response) => response.data);
 };
 

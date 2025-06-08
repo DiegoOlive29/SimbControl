@@ -57,6 +57,9 @@ const LoadunloadProvider = ({
     } catch (error) {
       handleError(error);
     } finally {
+      const fetchedloadunload = await getAllloadunload();
+      setScheduledAccess(fetchedloadunload);
+
       setIsLoadingAddloadunload(false);
     }
   };

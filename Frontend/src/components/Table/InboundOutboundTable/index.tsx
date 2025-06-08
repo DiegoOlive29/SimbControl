@@ -107,10 +107,9 @@ const InboundOutboundTable = () => {
     {
       headerName: "",
       field: "empty",
-      // A coluna com flex, vai preencher o espaço vazio
       flex: 1,
-      minWidth: 150, // Defina um tamanho mínimo, se necessário
-      suppressMovable: true, // Impede que a coluna seja movida
+      minWidth: 150,
+      suppressMovable: true,
     },
   ];
 
@@ -120,12 +119,13 @@ const InboundOutboundTable = () => {
     scheduledAccess,
     loadunloadDelete,
   } = useLoadUnload();
+
   useEffect(() => {
     getloadunload();
   }, []);
 
   const handleDelete = async () => {
-    await loadunloadDelete(targetDetail.id);
+    await loadunloadDelete(targetDetail.id || "");
     await getloadunload();
 
     setShowDeleteModal(false);
@@ -133,39 +133,44 @@ const InboundOutboundTable = () => {
 
   return (
     <div style={containerStyle}>
-      <div style={gridStyle} className={"ag-theme-quartz-dark"}>
-        <AgGridReact
-          rowData={scheduledAccess}
-          defaultColDef={defaultColDef}
-          columnDefs={columns}
-          theme={tableTheme}
-          loading={isLoadingloadunload}
-        />
-        {showDeleteModal && (
-          <DeleteModal
-            deleteFunction={handleDelete}
-            description="Tem certeza que deseja deletar o registro deste veículo"
-            handleOpenState={setShowDeleteModal}
-            title="Deletar registro do veículo"
+      {isLoadingloadunload ? (
+        <p>Carregando dados...</p>
+      ) : (
+        <div style={gridStyle} className={"ag-theme-quartz-dark"}>
+          <AgGridReact
+            rowData={scheduledAccess?.filter(
+              (item) => item && typeof item === "object"
+            )}
+            defaultColDef={defaultColDef}
+            columnDefs={columns}
+            theme={tableTheme}
           />
-        )}
-        {showEntryModal && (
-          <InOutModal
-            handleOpenState={setShowEntryModal}
-            action="in"
-            registryFunction={() => ""}
-            id={targetDetail.id}
-          />
-        )}
-        {showOutModal && (
-          <InOutModal
-            handleOpenState={setShowOutModal}
-            action="out"
-            registryFunction={() => ""}
-            id={targetDetail.id}
-          />
-        )}
-      </div>
+          {showDeleteModal && (
+            <DeleteModal
+              deleteFunction={handleDelete}
+              description="Tem certeza que deseja deletar o registro deste veículo"
+              handleOpenState={setShowDeleteModal}
+              title="Deletar registro do veículo"
+            />
+          )}
+          {showEntryModal && (
+            <InOutModal
+              handleOpenState={setShowEntryModal}
+              action="in"
+              registryFunction={() => ""}
+              id={targetDetail.id || ""}
+            />
+          )}
+          {showOutModal && (
+            <InOutModal
+              handleOpenState={setShowOutModal}
+              action="out"
+              registryFunction={() => ""}
+              id={targetDetail.id || ""}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };

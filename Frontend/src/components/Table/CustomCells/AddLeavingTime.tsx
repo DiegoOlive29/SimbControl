@@ -17,10 +17,9 @@ const AddLeavingTime = ({
     setShowModal(true);
   };
   const { horariosaida } = params.data;
-
   return (
     <CellWrapper>
-      {horariosaida ? (
+      {horariosaida != "" ? (
         <p>{horariosaida}</p>
       ) : (
         <AddEntry action={openModal} label="Saída" />
